@@ -1,0 +1,56 @@
+# debs.lock: every .deb recipe.sh fetches. Pinned by exact filename and sha256;
+# recipe.sh refuses to extract a file whose sha256 differs. Nothing is installed:
+# each set is unpacked with `dpkg-deb -x` into $OUT/tc/<set>.
+#
+# fields: set  sha256  filename  pool-directory  snapshot-sha1
+#   Debian sets: fetched from https://deb.debian.org/debian/<pool-directory>/<filename>,
+#   falling back to https://snapshot.debian.org/file/<snapshot-sha1> (content-addressed,
+#   kept forever). Checked 2026-09-26 against dists/{bookworm,trixie}/main/binary-amd64/
+#   Packages (sha256 + size) and snapshot.debian.org/mr (sha1): all match.
+#   Ubuntu set: https://archive.ubuntu.com/ubuntu/<pool-directory>/<filename>, falling
+#   back to https://launchpad.net/ubuntu/+archive/primary/+files/<filename>; sha256 as in
+#   the noble universe Packages index (apt-cache show). snapshot-sha1 is "-" there.
+#
+# binutils-mingw-w64 is deliberately NOT here: Debian's gcc-mingw-w64 drivers are built
+# --with-as=/usr/bin/<triplet>-as --with-ld=/usr/bin/<triplet>-ld, so GCC 12 and 14 run
+# the HOST binutils (checked with `gcc -v -Wl,-v`); the signed code comes only from the
+# runtime archives in the gcc/g++/mingw-w64 packages below (checked with the link maps).
+
+# GCC 12.2 + mingw-w64 10.0.0 (Debian 12 bookworm)
+deb12 811339affa3a6cf974bcfe2c2be3ce2d8883a43f45934ea7349f1c26b932ee38 gcc-mingw-w64-base_12.2.0-14+deb12u1+25.2+b1_amd64.deb pool/main/g/gcc-mingw-w64 556862999cf372937feee9aa16d9716017314cc4
+deb12 1097a1968ea51df95fc5f065c0eed5e8fac805dbf3be40a3dd28a0adf9cdebd8 gcc-mingw-w64-x86-64-win32_12.2.0-14+deb12u1+25.2+b1_amd64.deb pool/main/g/gcc-mingw-w64 76671bcb365786ed0537f37f4a40bd61a96d17fe
+deb12 88c84d22f35866730f8d00aae7c9fe8d7f6666632986324ae339699813a22095 g++-mingw-w64-x86-64-win32_12.2.0-14+deb12u1+25.2+b1_amd64.deb pool/main/g/gcc-mingw-w64 21e1debefa15f90234adb6e3f10a63d6ec598558
+deb12 0d1f4d225f323b98bb73c4804d4033b352b350304f656764c20a557bd309aa98 gcc-mingw-w64-i686-win32_12.2.0-14+deb12u1+25.2+b1_amd64.deb pool/main/g/gcc-mingw-w64 14b296f12eb7fdbbe109834d831ee854f0e0c8da
+deb12 987b60c8dd1d5ca422d40ee67f5e8acac5d10a638a721acfe4fed05c47508923 g++-mingw-w64-i686-win32_12.2.0-14+deb12u1+25.2+b1_amd64.deb pool/main/g/gcc-mingw-w64 7c339fc0e559cb3c42b1f55263a5f22c38f48b4b
+deb12 1317a00bbbc3866a6d23ff177bc3f6c92ccbfc9489f8d5314bfac76cf60ffc19 mingw-w64-common_10.0.0-3_all.deb pool/main/m/mingw-w64 08563b04ff9bae27cc8b766fa17253e28241a229
+deb12 6dc1360a4e643670c59b6056647af4ff9a3c254def43fc80e7922a25297fe7a1 mingw-w64-x86-64-dev_10.0.0-3_all.deb pool/main/m/mingw-w64 03fa8ef96e284cc6e01b04353d0fe38e1d8b4fc5
+deb12 359eb8e9c28f25916a80f20eed80d8f46efa73b0db8db712a6c95301cd13c25b mingw-w64-i686-dev_10.0.0-3_all.deb pool/main/m/mingw-w64 4071114c84c256551715d4ee922b778114131699
+
+# GCC 14.2 + mingw-w64 12.0.0 (Debian 13 trixie)
+deb14 8d2c64b886ab4a435a78ddc4cd3b510f149b65fbd6be8472e8f460627562718a gcc-mingw-w64-base_14.2.0-19+27+b1_amd64.deb pool/main/g/gcc-mingw-w64 d169b60af25c0ea9a066dc28aba3b583b0e2e745
+deb14 a4d7abc5c9c97380eeac348d3b94d522a04e80028bb825cd44df09d9ba90092f gcc-mingw-w64-x86-64-win32_14.2.0-19+27+b1_amd64.deb pool/main/g/gcc-mingw-w64 b668965bd9189066d8a6951e9ac2a25257102203
+deb14 9d84ad232f7e63ac297287b273653b443a3cd7a0613c43a30b3de9f9e20b6425 g++-mingw-w64-x86-64-win32_14.2.0-19+27+b1_amd64.deb pool/main/g/gcc-mingw-w64 c9de8beda77c2370c67eab2643ba0e89a9b9bb94
+deb14 918cc18b87ccaa197a2abf53d00382cb48779a99ea5c9c10413099d92a4dfa1f gcc-mingw-w64-i686-win32_14.2.0-19+27+b1_amd64.deb pool/main/g/gcc-mingw-w64 64499b4456c9c40d5f4d4b518b5256f9bffba2a6
+deb14 59d5d4ac2a4ce7ad58e25c507574b543f6a27f0e7c9e90315887d7c71500ad73 g++-mingw-w64-i686-win32_14.2.0-19+27+b1_amd64.deb pool/main/g/gcc-mingw-w64 643fafa473af7015ef72785244f892cb8236bd30
+deb14 97dce5d0d8aff1cade4786ad4ef5078345477a598829afcac2e7f2fbc5399990 mingw-w64-common_12.0.0-5_all.deb pool/main/m/mingw-w64 04191f42164d13da41e252e2c9cf0ee682bc1051
+deb14 0bf89cf7454cccb49cd2a46a6f7b33896f6ae3a1a2fe33e02c40be6155bbb385 mingw-w64-x86-64-dev_12.0.0-5_all.deb pool/main/m/mingw-w64 618a4c98eb8d29861d9da68afaa1e5dee9611d58
+deb14 ddd5f65c29014ae67b89df146a8016f38056a9d8eadbccd17cae4c00ccd01528 mingw-w64-i686-dev_12.0.0-5_all.deb pool/main/m/mingw-w64 06b042c98bd85d27ba9dd783d8fe2b1ae3f3fcbb
+
+# GCC 13.2 i686 C++ (Ubuntu 24.04 noble). Ubuntu ships no i686 g++ by default; the rest
+# of GCC 13 is the host's installed packages, checked below.
+noble13 eb8c406cfe63795f439f42d28c462ce656ed9c47523ade50818934176f83a9db g++-mingw-w64-i686-win32_13.2.0-6ubuntu1+26.1_amd64.deb pool/universe/g/gcc-mingw-w64 -
+noble13 f36713754287947860e847f72b3c150303e653c5fda27d0e5576d10d24662ec4 g++-mingw-w64-i686-posix_13.2.0-6ubuntu1+26.1_amd64.deb pool/universe/g/gcc-mingw-w64 -
+
+# Host packages (Ubuntu 24.04): used in place, never fetched. recipe.sh compares each
+# with `dpkg-query` and stops on a difference unless ALLOW_HOST_DRIFT=1.
+host gcc-mingw-w64-x86-64-win32 13.2.0-6ubuntu1+26.1
+host g++-mingw-w64-x86-64-win32 13.2.0-6ubuntu1+26.1
+host gcc-mingw-w64-x86-64-posix 13.2.0-6ubuntu1+26.1
+host g++-mingw-w64-x86-64-posix 13.2.0-6ubuntu1+26.1
+host gcc-mingw-w64-i686-win32 13.2.0-6ubuntu1+26.1
+host gcc-mingw-w64-i686-posix 13.2.0-6ubuntu1+26.1
+host mingw-w64-common 11.0.1-3build1
+host mingw-w64-x86-64-dev 11.0.1-3build1
+host mingw-w64-i686-dev 11.0.1-3build1
+host binutils-mingw-w64-x86-64 2.41.90.20240122-1ubuntu1+11.4
+host binutils-mingw-w64-i686 2.41.90.20240122-1ubuntu1+11.4
